@@ -10,3 +10,10 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
 }
+
+export enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Room = '/offer',
+}
