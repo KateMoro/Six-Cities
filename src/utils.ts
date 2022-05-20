@@ -10,3 +10,7 @@ export const getRandomNumber = (a: number, b: number): number => {
   return Number((Math.random() * (max - min) + min).toFixed());
 };
 
+export const calculateStarsCount = (rating: number): number => Math.round(rating) * 20;
+
+export const capitalizeFirstLetter = (str: string): string => str[0].toUpperCase() + str.substring(1);
+
