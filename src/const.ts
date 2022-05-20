@@ -17,3 +17,12 @@ export enum AppRoute {
   Favorites = '/favorites',
   Room = '/offer',
 }
+
+export const cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
