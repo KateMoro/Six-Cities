@@ -30,12 +30,17 @@ export const offersSlice = createSlice({
       state.city = action.payload;
     },
     toggleFavorite: (state, action) => {
-      const idx = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      const offersIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
       state.offers = [
-        ...state.offers.slice(0, idx),
+        ...state.offers.slice(0, offersIndex),
         action.payload,
-        ...state.offers.slice(idx + 1),
+        ...state.offers.slice(offersIndex + 1),
       ];
+
+      const favoriteOffersIndex = state.favoriteOffers.findIndex((offer) => offer.id === action.payload.id);
+      if (favoriteOffersIndex > -1) {
+        state.favoriteOffers.splice(favoriteOffersIndex, 1);
+      }
     },
   },
 });

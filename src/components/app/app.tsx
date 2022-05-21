@@ -6,7 +6,7 @@ import Spinner from '../spinner/spinner';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import PrivateRoute from '../private-route/private-route';
-import Favorites from '../../pages/favorites-page/favorites';
+import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import Room from '../../pages/room-page/room-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 
@@ -37,7 +37,7 @@ function App(): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Favorites />
+              <FavoritesPage />
             </PrivateRoute>
           }
         />
