@@ -4,12 +4,13 @@ import { APIRoute, AuthorizationStatus } from '../const';
 import { AppDispatch, State } from './../types/state';
 import { OfferType } from '../types/offer';
 import { UserData } from './../types/user-data';
+import { CommentType, AddCommentData } from './../types/comment';
 import { errorHandle } from './../services/error-handle';
 import { dropToken, saveToken } from '../services/token';
 import { dropUserEmail, saveUserEmail } from '../services/user-email';
 import { requireAuthorization } from './slices/userSlice';
 import { loadOffers, loadFavoriteOffers, toggleFavorite } from './slices/offersSlice';
-import { loadOffer } from './slices/roomSlice';
+import { loadComments, loadOffer } from './slices/roomSlice';
 
 type AuthData = {
   login: string;
@@ -63,6 +64,30 @@ export const fetchOfferRoomAction = createAsyncThunk<void, number, { dispatch: A
     try {
       const { data } = await api.get<OfferType>(`${APIRoute.Hotels}/${id}`);
       dispatch(loadOffer(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const fetchCommentsAction = createAsyncThunk<void, number, { dispatch: AppDispatch, state: State, extra: AxiosInstance }>(
+  'room/fetchComments',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<CommentType[]>(`${APIRoute.Comments}/${id}`);
+      dispatch(loadComments(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const addCommentAction = createAsyncThunk<void, AddCommentData, { dispatch: AppDispatch, state: State, extra: AxiosInstance }>(
+  'room/addComment',
+  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<CommentType[]>(`${APIRoute.Comments}/${id}`, { comment, rating });
+      dispatch(loadComments(data));
     } catch (error) {
       errorHandle(error);
     }

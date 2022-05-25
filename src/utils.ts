@@ -14,3 +14,4 @@ export const calculateStarsCount = (rating: number): number => Math.round(rating
 
 export const capitalizeFirstLetter = (str: string): string => str[0].toUpperCase() + str.substring(1);
 
+export const formatDate = (date: string): string => new Date(date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });

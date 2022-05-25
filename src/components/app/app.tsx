@@ -7,7 +7,7 @@ import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import PrivateRoute from '../private-route/private-route';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
-import Room from '../../pages/room-page/room-page';
+import RoomPage from '../../pages/room-page/room-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 
 function App(): JSX.Element {
@@ -44,7 +44,7 @@ function App(): JSX.Element {
 
         <Route
           path={`${AppRoute.Room}/:id`}
-          element={<Room />}
+          element={<RoomPage />}
         />
 
         <Route
