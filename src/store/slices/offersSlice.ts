@@ -3,6 +3,7 @@ import { OfferType } from '../../types/offer';
 
 type Offers = {
   city: string,
+  selectedOfferId: number,
   offers: OfferType[],
   favoriteOffers: OfferType[],
   isDataLoaded: boolean,
@@ -10,6 +11,7 @@ type Offers = {
 
 const initialState: Offers = {
   city: 'Paris',
+  selectedOfferId: 0,
   offers: [],
   favoriteOffers: [],
   isDataLoaded: false,
@@ -28,6 +30,9 @@ export const offersSlice = createSlice({
     },
     changeCity: (state, action) => {
       state.city = action.payload;
+    },
+    changeSelectedOfferId: (state, action) => {
+      state.selectedOfferId = action.payload;
     },
     toggleFavorite: (state, action) => {
       const offersIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
@@ -49,6 +54,7 @@ export const {
   loadOffers,
   loadFavoriteOffers,
   changeCity,
+  changeSelectedOfferId,
   toggleFavorite,
 } = offersSlice.actions;
 

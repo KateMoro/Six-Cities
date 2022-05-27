@@ -19,6 +19,16 @@ export enum AppRoute {
   Room = '/offer',
 }
 
+export enum TileLayer {
+  Url = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  Attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+}
+
+export enum MarkerUrl {
+  Default = '/img/pin.svg',
+  Current = '/img/pin-active.svg',
+}
+
 export const cities = [
   'Paris',
   'Cologne',

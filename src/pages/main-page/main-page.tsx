@@ -1,11 +1,11 @@
 import Header from '../../components/header/header';
 import Locations from '../../components/locations/locations';
+import Map from '../../components/map/map';
 import PlaceCard from '../../components/place-card/place-card';
 import { useAppSelector } from '../../hooks';
 
 function MainPage(): JSX.Element {
   const { offers, city } = useAppSelector((state) => state.offers);
-
   const filteredOffers = offers.filter((offer) => offer.city.name === city);
 
   return (
@@ -18,7 +18,7 @@ function MainPage(): JSX.Element {
 
         <div className="cities">
           <div className="cities__places-container container">
-            <section className="cities__places places" style={{ width: '100%' }}>
+            <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{filteredOffers.length} places to stay in {city}</b>
               <div className="cities__places-list places__list tabs__content">
@@ -27,6 +27,9 @@ function MainPage(): JSX.Element {
                 }
               </div>
             </section>
+            <div className="cities__right-section">
+              <Map offers={filteredOffers} />
+            </div>
           </div>
         </div>
       </main>

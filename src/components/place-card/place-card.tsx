@@ -4,6 +4,7 @@ import { OfferType } from '../../types/offer';
 import { AppRoute } from '../../const';
 import { calculateStarsCount, capitalizeFirstLetter } from '../../utils';
 import { toggleFavoriteAction } from '../../store/api-actions';
+import { changeSelectedOfferId } from '../../store/slices/offersSlice';
 
 function PlaceCard(props: OfferType): JSX.Element {
   const dispatch = useAppDispatch();
@@ -19,7 +20,11 @@ function PlaceCard(props: OfferType): JSX.Element {
   } = props;
 
   return (
-    <article className="cities__place-card place-card">
+    <article
+      className="cities__place-card place-card"
+      onMouseEnter={() => dispatch(changeSelectedOfferId(id))}
+      onMouseLeave={() => dispatch(changeSelectedOfferId(0))}
+    >
       {
         isPremium && <div className="place-card__mark"><span>Premium</span></div>
       }
