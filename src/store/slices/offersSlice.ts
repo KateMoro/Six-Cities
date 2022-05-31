@@ -7,6 +7,7 @@ type Offers = {
   offers: OfferType[],
   favoriteOffers: OfferType[],
   isDataLoaded: boolean,
+  sortType: string,
 };
 
 const initialState: Offers = {
@@ -15,6 +16,7 @@ const initialState: Offers = {
   offers: [],
   favoriteOffers: [],
   isDataLoaded: false,
+  sortType: 'Popular',
 };
 
 export const offersSlice = createSlice({
@@ -47,6 +49,9 @@ export const offersSlice = createSlice({
         state.favoriteOffers.splice(favoriteOffersIndex, 1);
       }
     },
+    changeSortType: (state, action) => {
+      state.sortType = action.payload;
+    },
   },
 });
 
@@ -56,6 +61,7 @@ export const {
   changeCity,
   changeSelectedOfferId,
   toggleFavorite,
+  changeSortType,
 } = offersSlice.actions;
 
 export default offersSlice.reducer;

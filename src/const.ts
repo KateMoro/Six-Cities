@@ -37,3 +37,10 @@ export const cities = [
   'Hamburg',
   'Dusseldorf',
 ];
+
+export const places = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first',
+];
