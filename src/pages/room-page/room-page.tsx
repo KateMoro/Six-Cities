@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchCommentsAction, fetchOfferRoomAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchOfferRoomAction, fetchNearbyPlacesAction } from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
 import Property from '../../components/property/property';
@@ -15,6 +15,7 @@ function RoomPage(): JSX.Element {
   useEffect(() => {
     dispatch(fetchOfferRoomAction(id));
     dispatch(fetchCommentsAction(id));
+    dispatch(fetchNearbyPlacesAction(id));
   }, [dispatch, id]);
 
   if (!offer || id !== offer.id) {

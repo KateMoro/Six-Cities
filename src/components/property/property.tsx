@@ -2,8 +2,9 @@ import { useAppDispatch } from '../../hooks';
 import { OfferType } from '../../types/offer';
 import { toggleFavoriteAction } from '../../store/api-actions';
 import { capitalizeFirstLetter } from '../../utils';
-import { toggleRoomFavoriteAction } from '../../store/slices/roomSlice';
+import { toggleOfferFavorite } from '../../store/slices/roomSlice';
 import Reviews from '../reviews/reviews';
+import NearbyPlaces from '../nearby-places/nearby-places';
 
 const IMAGE_MAX_COUNT = 6;
 
@@ -31,6 +32,7 @@ function Property(props: OfferType): JSX.Element {
   } = props;
 
   return (
+    <>
     <section className="property">
 
       <div className="property__gallery-container container">
@@ -63,7 +65,7 @@ function Property(props: OfferType): JSX.Element {
               type="button"
               onClick={() => {
                 dispatch(toggleFavoriteAction({ id, isFavorite }));
-                dispatch(toggleRoomFavoriteAction());
+                  dispatch(toggleOfferFavorite());
               }}
             >
               <svg className="property__bookmark-icon" width="31" height="33">
@@ -136,6 +138,10 @@ function Property(props: OfferType): JSX.Element {
       </div>
 
     </section>
+      <div className="container">
+        <NearbyPlaces />
+      </div>
+    </>
   );
 }
 

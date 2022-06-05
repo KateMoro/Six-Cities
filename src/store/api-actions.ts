@@ -10,7 +10,7 @@ import { dropToken, saveToken } from '../services/token';
 import { dropUserEmail, saveUserEmail } from '../services/user-email';
 import { requireAuthorization } from './slices/userSlice';
 import { loadOffers, loadFavoriteOffers, toggleFavorite } from './slices/offersSlice';
-import { loadComments, loadOffer } from './slices/roomSlice';
+import { loadComments, loadOffer, loadNearbyOffers, toggleNearbyOffersFavorite } from './slices/roomSlice';
 
 type AuthData = {
   login: string;
@@ -52,6 +52,7 @@ export const toggleFavoriteAction = createAsyncThunk<void, FavStatusData, { disp
     try {
       const { data } = await api.post<OfferType>(`${APIRoute.Favorite}/${id}/${isFavorite ? 0 : 1}`);
       dispatch(toggleFavorite(data));
+      dispatch(toggleNearbyOffersFavorite(data));
     } catch (error) {
       errorHandle(error);
     }
@@ -76,6 +77,18 @@ export const fetchCommentsAction = createAsyncThunk<void, number, { dispatch: Ap
     try {
       const { data } = await api.get<CommentType[]>(`${APIRoute.Comments}/${id}`);
       dispatch(loadComments(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const fetchNearbyPlacesAction = createAsyncThunk<void, number, { dispatch: AppDispatch, state: State, extra: AxiosInstance }>(
+  'room/fetchNearbyPlaces',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<OfferType[]>(`${APIRoute.Hotels}/${id}/nearby`);
+      dispatch(loadNearbyOffers(data));
     } catch (error) {
       errorHandle(error);
     }
