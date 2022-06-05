@@ -1,18 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { OfferType } from '../../types/offer';
 import { MarkerUrl } from '../../const';
-import { useAppSelector } from '../../hooks';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   offers: OfferType[];
+  selectedOfferId: number;
 }
 
 function Map(props: MapProps): JSX.Element {
-  const { selectedOfferId } = useAppSelector((state) => state.offers);
-  const { offers } = props;
+  const { offers, selectedOfferId } = props;
   const { location } = offers[0].city;
   const mapRef = useRef(null);
   const map = useMap(mapRef, location);
@@ -59,12 +58,11 @@ function Map(props: MapProps): JSX.Element {
   }, [map, offers, defaultCustomIcon, currentCustomIcon, selectedOfferId, location.latitude, location.longitude, location.zoom]);
 
   return (
-    <section
-      className="cities__map map"
+    <div
       style={{ height: '100%' }}
       ref={mapRef}
     >
-    </section>
+    </div>
   );
 }
 

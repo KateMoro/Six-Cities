@@ -7,7 +7,7 @@ import { useAppSelector } from '../../hooks';
 import { sorting } from '../../utils';
 
 function MainPage(): JSX.Element {
-  const { offers, city, sortType } = useAppSelector((state) => state.offers);
+  const { offers, city, sortType, selectedOfferId } = useAppSelector((state) => state.offers);
   const filteredOffers = offers.filter((offer) => offer.city.name === city);
   const sortedOffers = sorting(filteredOffers, sortType);
 
@@ -32,7 +32,9 @@ function MainPage(): JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <Map offers={sortedOffers} />
+              <section className="cities__map map">
+                <Map offers={sortedOffers} selectedOfferId={selectedOfferId} />
+              </section>
             </div>
           </div>
         </div>
