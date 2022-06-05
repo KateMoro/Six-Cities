@@ -8,7 +8,7 @@ import Property from '../../components/property/property';
 
 function RoomPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { offer } = useAppSelector((state) => state.room);
+  const { offer, nearbyOffers } = useAppSelector((state) => state.room);
   const param = useParams();
   const id = Number(param.id);
 
@@ -26,7 +26,7 @@ function RoomPage(): JSX.Element {
     <div className="page">
       <Header />
       <main className="page__main page__main--property">
-        <Property {...offer} />
+        <Property offer={offer} nearbyOffers={nearbyOffers} />
       </main>
     </div>
   );
