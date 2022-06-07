@@ -8,6 +8,8 @@ type Offers = {
   favoriteOffers: OfferType[],
   isDataLoaded: boolean,
   sortType: string,
+  roomOffer: OfferType | null,
+  roomNearbyOffers: OfferType[],
 };
 
 const initialState: Offers = {
@@ -17,6 +19,8 @@ const initialState: Offers = {
   favoriteOffers: [],
   isDataLoaded: false,
   sortType: 'Popular',
+  roomOffer: null,
+  roomNearbyOffers: [],
 };
 
 export const offersSlice = createSlice({
@@ -37,20 +41,33 @@ export const offersSlice = createSlice({
       state.selectedOfferId = action.payload;
     },
     toggleFavorite: (state, action) => {
-      const offersIndex = state.offers.findIndex((offer) => offer.id === action.payload.id);
-      state.offers = [
-        ...state.offers.slice(0, offersIndex),
-        action.payload,
-        ...state.offers.slice(offersIndex + 1),
-      ];
+      const id = action.payload.id;
 
-      const favoriteOffersIndex = state.favoriteOffers.findIndex((offer) => offer.id === action.payload.id);
+      if (state.roomOffer !== null && state.roomOffer.id === id) {
+        state.roomOffer.isFavorite = !state.roomOffer.isFavorite;
+      }
+
+      const offersIndex = state.offers.findIndex((offer) => offer.id === id);
+      state.offers.splice(offersIndex, 1, action.payload);
+
+      const favoriteOffersIndex = state.favoriteOffers.findIndex((offer) => offer.id === id);
       if (favoriteOffersIndex > -1) {
         state.favoriteOffers.splice(favoriteOffersIndex, 1);
+      }
+
+      const nearbyOffersIndex = state.roomNearbyOffers.findIndex((nearbyOffer) => nearbyOffer.id === id);
+      if (nearbyOffersIndex > -1) {
+        state.roomNearbyOffers.splice(nearbyOffersIndex, 1, action.payload);
       }
     },
     changeSortType: (state, action) => {
       state.sortType = action.payload;
+    },
+    loadRoomOffer: (state, action) => {
+      state.roomOffer = action.payload;
+    },
+    loadRoomNearbyOffers: (state, action) => {
+      state.roomNearbyOffers = action.payload;
     },
   },
 });
@@ -62,6 +79,8 @@ export const {
   changeSelectedOfferId,
   toggleFavorite,
   changeSortType,
+  loadRoomOffer,
+  loadRoomNearbyOffers,
 } = offersSlice.actions;
 
 export default offersSlice.reducer;

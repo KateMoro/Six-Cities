@@ -5,7 +5,7 @@ import ReviewForm from '../review-form/review-form';
 
 
 function Reviews(): JSX.Element {
-  const { comments } = useAppSelector((state) => state.room);
+  const { comments } = useAppSelector((state) => state.comments);
   const { authorizationStatus } = useAppSelector((state) => state.user);
 
   return (

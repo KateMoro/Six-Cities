@@ -9,8 +9,14 @@ import { errorHandle } from './../services/error-handle';
 import { dropToken, saveToken } from '../services/token';
 import { dropUserEmail, saveUserEmail } from '../services/user-email';
 import { requireAuthorization } from './slices/userSlice';
-import { loadOffers, loadFavoriteOffers, toggleFavorite } from './slices/offersSlice';
-import { loadComments, loadOffer, loadNearbyOffers, toggleNearbyOffersFavorite } from './slices/roomSlice';
+import { loadComments } from './slices/commentsSlice';
+import {
+  loadOffers,
+  loadFavoriteOffers,
+  toggleFavorite,
+  loadRoomOffer,
+  loadRoomNearbyOffers
+} from './slices/offersSlice';
 
 type AuthData = {
   login: string;
@@ -52,19 +58,18 @@ export const toggleFavoriteAction = createAsyncThunk<void, FavStatusData, { disp
     try {
       const { data } = await api.post<OfferType>(`${APIRoute.Favorite}/${id}/${isFavorite ? 0 : 1}`);
       dispatch(toggleFavorite(data));
-      dispatch(toggleNearbyOffersFavorite(data));
     } catch (error) {
       errorHandle(error);
     }
   },
 );
 
-export const fetchOfferRoomAction = createAsyncThunk<void, number, { dispatch: AppDispatch, state: State, extra: AxiosInstance }>(
-  'room/fetchOffer',
+export const fetchRoomOfferAction = createAsyncThunk<void, number, { dispatch: AppDispatch, state: State, extra: AxiosInstance }>(
+  'data/fetchRoomOffer',
   async (id, { dispatch, extra: api }) => {
     try {
       const { data } = await api.get<OfferType>(`${APIRoute.Hotels}/${id}`);
-      dispatch(loadOffer(data));
+      dispatch(loadRoomOffer(data));
     } catch (error) {
       errorHandle(error);
     }
@@ -84,11 +89,11 @@ export const fetchCommentsAction = createAsyncThunk<void, number, { dispatch: Ap
 );
 
 export const fetchNearbyPlacesAction = createAsyncThunk<void, number, { dispatch: AppDispatch, state: State, extra: AxiosInstance }>(
-  'room/fetchNearbyPlaces',
+  'data/fetchNearbyPlaces',
   async (id, { dispatch, extra: api }) => {
     try {
       const { data } = await api.get<OfferType[]>(`${APIRoute.Hotels}/${id}/nearby`);
-      dispatch(loadNearbyOffers(data));
+      dispatch(loadRoomNearbyOffers(data));
     } catch (error) {
       errorHandle(error);
     }
@@ -114,7 +119,6 @@ export const checkAuthAction = createAsyncThunk<void, undefined, { dispatch: App
       await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch (error) {
-      errorHandle(error);
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },

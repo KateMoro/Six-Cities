@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { OfferType } from '../../types/offer';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { calculateStarsCount, capitalizeFirstLetter } from '../../utils';
 import { toggleFavoriteAction } from '../../store/api-actions';
 import { changeSelectedOfferId } from '../../store/slices/offersSlice';
 
 function PlaceCard(props: OfferType): JSX.Element {
+  const { authorizationStatus } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
     id,
@@ -47,7 +49,11 @@ function PlaceCard(props: OfferType): JSX.Element {
             `}
             type="button"
             onClick={() => {
-              dispatch(toggleFavoriteAction({ id, isFavorite }));
+              if (authorizationStatus === AuthorizationStatus.Auth) {
+                dispatch(toggleFavoriteAction({ id, isFavorite }));
+              } else {
+                navigate(AppRoute.Login);
+              }
             }}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">

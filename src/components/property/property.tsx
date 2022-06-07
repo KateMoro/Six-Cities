@@ -1,8 +1,9 @@
-import { useAppDispatch } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { OfferType } from '../../types/offer';
 import { toggleFavoriteAction } from '../../store/api-actions';
 import { capitalizeFirstLetter } from '../../utils';
-import { toggleOfferFavorite } from '../../store/slices/roomSlice';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import Reviews from '../reviews/reviews';
 import Map from '../map/map';
 import NearbyPlaces from '../nearby-places/nearby-places';
@@ -15,7 +16,9 @@ type PropertyProps = {
 }
 
 function Property(props: PropertyProps): JSX.Element {
+  const { authorizationStatus } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { offer, nearbyOffers } = props;
 
@@ -72,8 +75,11 @@ function Property(props: PropertyProps): JSX.Element {
                 `}
                 type="button"
                 onClick={() => {
-                  dispatch(toggleFavoriteAction({ id, isFavorite }));
-                  dispatch(toggleOfferFavorite());
+                  if (authorizationStatus === AuthorizationStatus.Auth) {
+                    dispatch(toggleFavoriteAction({ id, isFavorite }));
+                  } else {
+                    navigate(AppRoute.Login);
+                  }
                 }}
               >
                 <svg className="property__bookmark-icon" width="31" height="33">

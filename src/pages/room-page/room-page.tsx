@@ -1,24 +1,28 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchCommentsAction, fetchOfferRoomAction, fetchNearbyPlacesAction } from '../../store/api-actions';
+import {
+  fetchCommentsAction,
+  fetchRoomOfferAction,
+  fetchNearbyPlacesAction
+} from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
 import Property from '../../components/property/property';
 
 function RoomPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { offer, nearbyOffers } = useAppSelector((state) => state.room);
+  const { roomOffer, roomNearbyOffers } = useAppSelector((state) => state.offers);
   const param = useParams();
   const id = Number(param.id);
 
   useEffect(() => {
-    dispatch(fetchOfferRoomAction(id));
+    dispatch(fetchRoomOfferAction(id));
     dispatch(fetchCommentsAction(id));
     dispatch(fetchNearbyPlacesAction(id));
   }, [dispatch, id]);
 
-  if (!offer || id !== offer.id) {
+  if (!roomOffer || id !== roomOffer.id) {
     return <Spinner />;
   }
 
@@ -26,7 +30,7 @@ function RoomPage(): JSX.Element {
     <div className="page">
       <Header />
       <main className="page__main page__main--property">
-        <Property offer={offer} nearbyOffers={nearbyOffers} />
+        <Property offer={roomOffer} nearbyOffers={roomNearbyOffers} />
       </main>
     </div>
   );
