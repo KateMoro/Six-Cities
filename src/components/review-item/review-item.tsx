@@ -1,4 +1,4 @@
-import { calculateStarsCount, formatDate } from '../../utils';
+import { calculateStarsCount, getFormattedDate } from '../../utils';
 import { CommentType } from '../../types/comment';
 
 function ReviewItem(props: CommentType): JSX.Element {
@@ -37,7 +37,7 @@ function ReviewItem(props: CommentType): JSX.Element {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{formatDate(date)}</time>
+        <time className="reviews__time" dateTime={getFormattedDate(date, 'YYYY-MM-DD')}>{getFormattedDate(date, 'MMMM YYYY')}</time>
       </div>
     </li>
   );

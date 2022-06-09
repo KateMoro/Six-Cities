@@ -1,5 +1,7 @@
+import dayjs from 'dayjs';
 import { AuthorizationStatus } from './const';
 import { OfferType } from './types/offer';
+import { CommentType } from './types/comment';
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
@@ -15,7 +17,9 @@ export const calculateStarsCount = (rating: number): number => Math.round(rating
 
 export const capitalizeFirstLetter = (str: string): string => str[0].toUpperCase() + str.substring(1);
 
-export const formatDate = (date: string): string => new Date(date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+export const getFormattedDate = (date: string, format: string): string => dayjs(date).format(format);
+
+export const sortByDate = (a: CommentType, b: CommentType) => dayjs(b.date).diff(dayjs(a.date), 'ms');
 
 export const sorting = (offers: OfferType[], sortType: string): OfferType[] => {
   switch (sortType) {
